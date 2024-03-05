@@ -1,4 +1,5 @@
 -- enums
+State = { START = "0", SELECT = "1", STRIKE = "2", END = "3" }
 ElementTypes = { NULL = "0", FIRE = "1", WATER = "2", EARTH = "3", METAL = "4", AIR = "5"}
 StyleTypes = { NULL = "0", STRONG = "1", QUICK = "2", BALANCED = "3"};
 
@@ -55,12 +56,35 @@ function Character:new (o, hp, mp, atk, def, turns, atkList, atkQueue)
 	return o
 end
 
--- create object
-basicStrong = Attack:new(nil, "basicStrong", ElementTypes.NULL, StyleTypes.STRONG, 10, 5, 0)
-basicQuick = Attack:new(nil, "basicQuick", ElementTypes.NULL, StyleTypes.QUICK, 6, 3, 0)
-basicBalanced = Attack:new(nil, "basicBalanced", ElementTypes.NULL, StyleTypes.BALANCED, 8, 4, 0)
 
-default_attack_list = {basicQuick, basicStrong, basicBalanced}
+function love.load()
+  -- create objects
+  basicStrong = Attack:new(nil, "basicStrong", ElementTypes.NULL, StyleTypes.STRONG, 10, 5, 0)
+  basicQuick = Attack:new(nil, "basicQuick", ElementTypes.NULL, StyleTypes.QUICK, 6, 3, 0)
+  basicBalanced = Attack:new(nil, "basicBalanced", ElementTypes.NULL, StyleTypes.BALANCED, 8, 4, 0)
 
-p1 = Character:new(nil, 10, 10, 5, 4, 2, default_attack_list, {})
-p2 = Character:new(nil, 10, 10, 5, 4, 2, default_attack_list, {})
+  default_attack_list = {basicQuick, basicStrong, basicBalanced}
+
+  p1 = Character:new(nil, 10, 10, 5, 4, 2, default_attack_list, {})
+  p2 = Character:new(nil, 10, 10, 5, 4, 2, default_attack_list, {})
+  
+  currentState = ChangeStateTo(State.START)
+end
+
+function ChangeStateTo(state)
+  print("hello?")
+  if state == State.START then 
+    print("hi")
+  end
+  currentState = state
+end
+
+
+
+function love.update(dt)
+  
+end
+
+function love.draw()
+
+end
