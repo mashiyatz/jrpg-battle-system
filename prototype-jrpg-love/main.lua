@@ -56,6 +56,14 @@ function Character:new (o, hp, mp, atk, def, turns, atkList, atkQueue)
 	return o
 end
 
+function ChangeStateTo(state)
+  if state == State.START then 
+    love.graphics.print("hi")
+	elseif state == State.SELECT then
+  	countdown = 5;
+  end
+  currentState = state
+end
 
 function love.load()
   -- create objects
@@ -67,24 +75,37 @@ function love.load()
 
   p1 = Character:new(nil, 10, 10, 5, 4, 2, default_attack_list, {})
   p2 = Character:new(nil, 10, 10, 5, 4, 2, default_attack_list, {})
+
+  countdown = 0;
   
-  currentState = ChangeStateTo(State.START)
+  currentState = State.START
+  love.keyboard.setKeyRepeat(false)
 end
-
-function ChangeStateTo(state)
-  print("hello?")
-  if state == State.START then 
-    print("hi")
-  end
-  currentState = state
-end
-
-
 
 function love.update(dt)
-  
+	if currentState == State.START then
+		if love.keyboard.isDown("down") then
+			ChangeStateTo(State.SELECT)
+		end
+  elseif currentState == State.SELECT then
+  	if countdown >= 0 then
+  		countdown = countdown - dt
+  		if love.keyboard.isDown("up") then 
+  			ChangeStateTo(State.END)
+  		end
+  	else 
+  		ChangeStateTo(State.STRIKE)
+  	end
+  end
 end
 
 function love.draw()
+	love.graphics.print(countdown, 400, 300)
+	love.graphics.print(currentState, 400, 350)
+end
 
+function love.keypressed(key, scancode, isrepeat)
+   if key == "escape" then
+      love.event.quit()
+   end
 end
